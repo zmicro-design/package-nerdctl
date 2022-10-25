@@ -58,10 +58,6 @@ jobs:
       - name: Update Zmicro
         run: zmicro update -a
 
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: "0"
-
       - name: Install
         run: |
           zmicro package install nerdctl
