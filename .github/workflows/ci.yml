@@ -59,8 +59,7 @@ jobs:
         run: zmicro update -a
 
       - name: Install
-        run: |
-          zmicro package install nerdctl
+        run: zmicro package install nerdctl
 
       - name: version
         run: zmicro nerdctl version

@@ -20,7 +20,7 @@ install() {
     os="macOS"
     bin_path=/usr/local/bin
 
-    pm install -y lima
+    zmicro package install lima
     if [ "$?" != "0" ]; then
       log::error "failed to install nerdctl/lima"
       return 1
