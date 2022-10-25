@@ -55,6 +55,9 @@ install() {
   sudo mv containerd-rootless.sh $bin_path/containerd-rootless.sh
   sudo mv containerd-rootless-setuptool.sh $bin_path/containerd-rootless-setuptool.sh
 
+  # @TODO launch rootless containerd
+  containerd-rootless-setuptool.sh install
+
   # clean
   rm -rf $tmp_dir
 }
