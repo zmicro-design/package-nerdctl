@@ -1,0 +1,82 @@
+#!/bin/bash
+
+VERSION=v1.0.0
+
+set -e
+
+help() {
+  echo "Usage:"
+  echo "  zmicro package install nerdctl <args...>"
+  echo ""
+}
+
+install() {
+  # get system os/arch/bin_path
+  local arch="$(os::arch)"
+  local os="linux"
+  local bin_path=/usr/bin
+
+  if [ "$(os::is_macos)" = "true" ]; then
+    os="macOS"
+    bin_path=/usr/local/bin
+
+    pm install -y lima
+    return
+  fi
+
+  # prepare vars
+  local name="nerdctl"
+  local tmp_dir="/tmp/$name"
+  local tmp_file="$tmp_dir/$name.tar.gz"
+  local tar_gz_bin="./$name"
+  local user_bin="$bin_path/$name"
+
+  # prepare context
+  mkdir -p $tmp_dir
+  cd $tmp_dir
+
+  # reference: https://github.com/containerd/nerdctl/releases
+  # example:
+  #   https://github.com/containerd/nerdctl/releases/download/v1.0.0/nerdctl-1.0.0-linux-arm64.tar.gz
+  #   https://github.com/containerd/nerdctl/releases/download/v1.0.0/nerdctl-1.0.0-linux-amd64.tar.gz
+  # generate url
+  local url="https://github.com/containerd/nerdctl/releases/download/$VERSION/${name}-${VERSION#v}-${os}-${arch}.tar.gz"
+  log::debug "[package][$name] url: $url"
+
+  # download
+  os::curl --progress-bar -fSL $url -o $tmp_file
+
+  # extract
+  tar -zxvf $tmp_file >>/dev/null 2>&1
+
+  # install
+  sudo mv $tar_gz_bin $user_bin
+  # extra
+  sudo mv containerd-rootless.sh $bin_path/containerd-rootless.sh
+  sudo mv containerd-rootless-setuptool.sh $bin_path/containerd-rootless-setuptool.sh
+
+  # clean
+  rm -rf $tmp_dir
+}
+
+core() {
+  if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+    help
+    exit 0
+  fi
+
+  install
+  if [ $? -eq 0 ]; then
+    log::success "install nerdctl success."
+    exit 0
+  else
+    log::error "install nerdctl failed."
+    exit 1
+  fi
+}
+
+run() {
+  core $@
+}
+
+run $@

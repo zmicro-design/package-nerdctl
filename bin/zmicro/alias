@@ -1,0 +1,45 @@
+#!/bin/bash
+
+help() {
+  echo "Usage:"
+  echo "  zmicro nerdctl <args ...>"
+  echo ""
+
+  if [ "$(os::is_macos)" = "true" ]; then
+    lima nerdctl --help
+  else
+    nerdctl --help
+  fi
+}
+
+version() {
+  if [ "$(os::is_macos)" = "true" ]; then
+    lima nerdctl version
+  else
+    nerdctl version
+  fi
+}
+
+core() {
+  case $1 in
+  -h | --help | help)
+    help
+    ;;
+  -v | --version | version)
+    version
+    ;;
+  *)
+    if [ "$(os::is_macos)" = "true" ]; then
+      lima nerdctl "$@"
+    else
+      nerdctl "$@"
+    fi
+    ;;
+  esac
+}
+
+run() {
+  core "$@"
+}
+
+run "$@"
