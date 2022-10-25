@@ -21,6 +21,12 @@ install() {
     bin_path=/usr/local/bin
 
     pm install -y lima
+    if [ "$?" != "0" ]; then
+      log::error "failed to install nerdctl/lima"
+      return 1
+    fi
+
+    limactl start default
     return
   fi
 
