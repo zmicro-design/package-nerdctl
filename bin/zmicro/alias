@@ -8,7 +8,7 @@ help() {
   if [ "$(os::is_macos)" = "true" ]; then
     lima nerdctl --help
   else
-    nerdctl --help
+    sudo nerdctl --help
   fi
 }
 
@@ -16,7 +16,7 @@ version() {
   if [ "$(os::is_macos)" = "true" ]; then
     lima nerdctl version
   else
-    nerdctl version
+    sudo nerdctl version
   fi
 }
 
