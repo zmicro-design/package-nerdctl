@@ -1,2 +1,2 @@
-VERSION=v1.0.7
+VERSION=v1.0.8
 DESCRIPTION="Package nerdctl - contaiNERD CTL - Docker-compatible CLI for containerd, with support for Compose, Rootless, eStargz, OCIcrypt, IPFS"
