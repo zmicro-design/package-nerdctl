@@ -24,7 +24,14 @@ install() {
       return 1
     fi
 
+    sudo ln -sf "$(which nerdctl.lima)" /usr/local/bin/nerdctl
+    if [ "$?" != "0" ]; then
+      log::error "failed to create nerdctl command with command: ln -sf \"$(which nerdctl.lima)\" /usr/local/bin/nerdctl"
+      return 1
+    fi
+
     limactl start default
+
     return
   fi
 
