@@ -1,5 +1,5 @@
 #!/bin/bash
 
 export PACKAGE_CORE_NAME="nerdctl"
-export PACKAGE_CORE_VERSION=v1.2.0
+export PACKAGE_CORE_VERSION=v1.6.0
 export PACKAGE_CORE_RELEASE_DOWNLOAD="https://github.com/containerd/nerdctl/releases/download"
